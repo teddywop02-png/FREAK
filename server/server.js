@@ -30,8 +30,86 @@ const db = new sqlite3.Database(dbPath, (err) => {
     console.error('Error opening database:', err.message);
   } else {
     console.log('Connected to SQLite database');
+    // Initialize database if needed
+    initializeDatabaseIfNeeded();
   }
 });
+
+// Initialize database tables if they don't exist
+function initializeDatabaseIfNeeded() {
+  db.serialize(() => {
+    // Users table for admin authentication
+    db.run(`CREATE TABLE IF NOT EXISTS users (
+      id INTEGER PRIMARY KEY AUTOINCREMENT,
+      email TEXT UNIQUE NOT NULL,
+      password_hash TEXT NOT NULL,
+      role TEXT DEFAULT 'admin',
+      created_at DATETIME DEFAULT CURRENT_TIMESTAMP
+    )`);
+
+    // Products table
+    db.run(`CREATE TABLE IF NOT EXISTS products (
+      id INTEGER PRIMARY KEY AUTOINCREMENT,
+      title TEXT NOT NULL,
+      description TEXT,
+      images TEXT,
+      category TEXT DEFAULT 'streetwear',
+      created_at DATETIME DEFAULT CURRENT_TIMESTAMP
+    )`);
+
+    // Product variants table
+    db.run(`CREATE TABLE IF NOT EXISTS product_variants (
+      id INTEGER PRIMARY KEY AUTOINCREMENT,
+      product_id INTEGER NOT NULL,
+      size TEXT NOT NULL,
+      price INTEGER NOT NULL,
+      stock_total INTEGER NOT NULL DEFAULT 0,
+      stock_for_drop INTEGER DEFAULT NULL,
+      FOREIGN KEY (product_id) REFERENCES products (id)
+    )`);
+
+    // Drops table
+    db.run(`CREATE TABLE IF NOT EXISTS drops (
+      id INTEGER PRIMARY KEY AUTOINCREMENT,
+      title TEXT NOT NULL,
+      description TEXT,
+      start_at DATETIME NOT NULL,
+      end_at DATETIME NOT NULL,
+      key_hash TEXT NOT NULL,
+      is_active BOOLEAN DEFAULT FALSE,
+      processed BOOLEAN DEFAULT FALSE,
+      created_at DATETIME DEFAULT CURRENT_TIMESTAMP
+    )`);
+
+    // Drop products junction table
+    db.run(`CREATE TABLE IF NOT EXISTS drop_products (
+      id INTEGER PRIMARY KEY AUTOINCREMENT,
+      drop_id INTEGER NOT NULL,
+      product_variant_id INTEGER NOT NULL,
+      allocated_stock INTEGER NOT NULL,
+      FOREIGN KEY (drop_id) REFERENCES drops (id),
+      FOREIGN KEY (product_variant_id) REFERENCES product_variants (id)
+    )`);
+
+    // Orders table
+    db.run(`CREATE TABLE IF NOT EXISTS orders (
+      id INTEGER PRIMARY KEY AUTOINCREMENT,
+      user_email TEXT NOT NULL,
+      items TEXT NOT NULL,
+      total_amount INTEGER NOT NULL,
+      stripe_session_id TEXT,
+      status TEXT DEFAULT 'pending',
+      created_at DATETIME DEFAULT CURRENT_TIMESTAMP
+    )`);
+
+    // Newsletter subscribers
+    db.run(`CREATE TABLE IF NOT EXISTS newsletter_subs (
+      id INTEGER PRIMARY KEY AUTOINCREMENT,
+      email TEXT UNIQUE NOT NULL,
+      subscribed_at DATETIME DEFAULT CURRENT_TIMESTAMP
+    )`);
+  });
+}
 
 // Middleware
 app.use(helmet());
