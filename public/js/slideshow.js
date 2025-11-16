@@ -82,16 +82,16 @@ class ContinuousHorizontalScroller {
         this.startX = e.type.includes('touch') ? e.touches[0].clientX : e.clientX;
         this.dragOffset = 0;
         this.stop(); // Pause auto-scroll during drag
+        this.track.style.transition = 'none'; // Remove transition for smooth dragging
         
         // Update cursor
-        if (e.type.includes('mouse')) {
-            this.track.style.cursor = 'grabbing';
-        }
+        this.track.style.cursor = 'grabbing';
     }
 
     _onDragMove(e) {
         if (!this.isDragging) return;
         
+        e.preventDefault(); // Prevent text selection while dragging
         const currentX = e.type.includes('touch') ? e.touches[0].clientX : e.clientX;
         this.dragOffset = currentX - this.startX;
         
@@ -106,13 +106,14 @@ class ContinuousHorizontalScroller {
         this.offset += this.dragOffset;
         this.dragOffset = 0;
         this.track.style.cursor = 'grab';
+        this.track.style.transition = ''; // Re-enable transition
         
         // Normalize offset if needed
         if (this.offset >= 0) {
             this.offset -= this.singleWidth;
         }
         
-        // Resume auto-scroll after a short delay
+        // Resume auto-scroll after drag
         this.lastTs = performance.now();
         this.start();
     }
