@@ -1250,7 +1250,7 @@ body.splash-active > *:not(.splash-overlay) {
     }
 
     .products-section {
-        padding-bottom: 120px;
+        padding: 40px 0 120px 0;
     }
 }
 
@@ -1372,6 +1372,10 @@ body.splash-active > *:not(.splash-overlay) {
 
     .shop-subtitle {
         font-size: 16px;
+    }
+
+    .products-section {
+        padding: 40px 0 60px 0;
     }
 
     .filters-section {
@@ -2082,7 +2086,7 @@ body.splash-active > *:not(.splash-overlay) {
     }
 
     .products-section {
-        padding-bottom: 90px;
+        padding: 40px 0 90px 0;
     }
 }
 
