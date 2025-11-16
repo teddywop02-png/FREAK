@@ -296,6 +296,7 @@ body.splash-active > *:not(.splash-overlay) {
     display: block;
     flex: none;
     object-fit: cover;
+    filter: drop-shadow(0 14px 36px rgba(0,0,0,0.6));
 }
 
 .hero-footer {
