@@ -53,14 +53,28 @@ class FreakApp {
         document.body.classList.add('splash-active');
 
         // Auto-fade and navigate after delay
-        setTimeout(() => {
+        const fadeOutTimer = setTimeout(() => {
             document.body.classList.remove('splash-active');
             splash.classList.add('fade-out');
-            setTimeout(() => {
+            const removeTimer = setTimeout(() => {
                 if (splash.parentNode) splash.parentNode.removeChild(splash);
                 document.body.style.overflow = '';
             }, 480);
         }, 500);
+
+        // SAFETY: Make sure splash is removed after 2 seconds even if timers fail
+        const safetyTimeout = setTimeout(() => {
+            if (splash && splash.parentNode) {
+                document.body.classList.remove('splash-active');
+                splash.classList.add('fade-out');
+                setTimeout(() => {
+                    if (splash && splash.parentNode) {
+                        splash.parentNode.removeChild(splash);
+                    }
+                    document.body.style.overflow = '';
+                }, 480);
+            }
+        }, 2000);
     }
 
     setupSplash() {
@@ -89,7 +103,9 @@ class FreakApp {
             // clear any existing removal timer and set a new one
             if (removeTimer) clearTimeout(removeTimer);
             removeTimer = setTimeout(() => {
-                if (splash && splash.parentNode) splash.parentNode.removeChild(splash);
+                if (splash && splash.parentNode) {
+                    splash.parentNode.removeChild(splash);
+                }
                 document.body.style.overflow = previousOverflow || '';
             }, delay);
         };
@@ -97,6 +113,7 @@ class FreakApp {
         // Dismiss quickly on click/tap for better UX
         const onClickDismiss = () => {
             if (fadeTimer) clearTimeout(fadeTimer);
+            if (removeTimer) clearTimeout(removeTimer);
             removeSplash(360);
         };
 
@@ -107,6 +124,25 @@ class FreakApp {
         fadeTimer = setTimeout(() => {
             removeSplash(480);
         }, 700);
+
+        // SAFETY: Make sure splash is removed after 2 seconds even if timers fail
+        const safetyTimeout = setTimeout(() => {
+            if (splash && splash.parentNode) {
+                splash.classList.add('fade-out');
+                setTimeout(() => {
+                    if (splash && splash.parentNode) {
+                        splash.parentNode.removeChild(splash);
+                    }
+                    document.body.style.overflow = previousOverflow || '';
+                    document.body.classList.remove('splash-active');
+                }, 480);
+            }
+        }, 2000);
+
+        // Track for cleanup
+        splash._fadeTimer = fadeTimer;
+        splash._removeTimer = removeTimer;
+        splash._safetyTimeout = safetyTimeout;
     }
 
     setupMenu() {
