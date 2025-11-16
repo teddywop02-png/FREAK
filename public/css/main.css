@@ -725,8 +725,7 @@ body.splash-active > *:not(.splash-overlay) {
     .product-info {
         display: flex;
         flex-direction: column;
-        min-height: 200px;
-        gap: 10px;
+        height: 220px;
     }
 }
 
@@ -738,12 +737,13 @@ body.splash-active > *:not(.splash-overlay) {
 
 @media (min-width: 1025px) {
     .product-title {
-        flex: 0 0 auto;
+        flex: 0 0 56px;
         min-height: 56px;
         display: -webkit-box;
         -webkit-line-clamp: 2;
         -webkit-box-orient: vertical;
         overflow: hidden;
+        line-height: 1.3;
     }
 }
 
@@ -791,12 +791,11 @@ body.splash-active > *:not(.splash-overlay) {
 
 @media (min-width: 1025px) {
     .product-price {
-        flex: 1 0 auto;
+        flex: 0 0 30px;
         min-height: 30px;
         display: flex;
         align-items: center;
         margin-bottom: 0;
-        margin-top: auto;
     }
 }
 
@@ -815,7 +814,7 @@ body.splash-active > *:not(.splash-overlay) {
 
 @media (min-width: 1025px) {
     .buy-btn {
-        flex: 0 0 auto;
+        flex: 1 0 auto;
     }
 }
 
