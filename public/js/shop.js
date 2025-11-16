@@ -175,10 +175,10 @@ class ShopPage {
         const stockPhotoUrl = stockPhotos[imageIndex];
 
         card.innerHTML = `
-            <img src="${stockPhotoUrl}" alt="${productTitle}" class="product-image">
+            <img src="${stockPhotoUrl}" alt="${productTitle}" class="product-image" style="cursor: pointer;">
             <div class="product-info">
-                <h3 class="product-title">${productTitle}</h3>
-                <p class="product-price">150 RON</p>
+                <h3 class="product-title" style="cursor: pointer;">${productTitle}</h3>
+                <p class="product-price" style="cursor: pointer;">150 RON</p>
                 <button class="buy-btn" ${availableVariants.length > 0 ? '' : 'disabled'}>
                     ${availableVariants.length === 0 ? 'OUT OF STOCK' : 'MORE DETAILS'}
                 </button>
@@ -187,13 +187,22 @@ class ShopPage {
 
         // Add event listeners
         const buyBtn = card.querySelector('.buy-btn');
+        const productImage = card.querySelector('.product-image');
+        const productTitleEl = card.querySelector('.product-title');
+        const productPriceEl = card.querySelector('.product-price');
 
-        buyBtn.addEventListener('click', () => {
+        // Handler for navigation
+        const navigateToProduct = () => {
             if (availableVariants.length > 0) {
-                const selectedVariant = availableVariants[0];
-                this.handleBuyNow(product, selectedVariant, productNumber, imageIndex);
+                window.location.href = `/product.html?product=${productNumber}&image=${imageIndex}`;
             }
-        });
+        };
+
+        // Add click listeners to image, title, price, and button
+        productImage.addEventListener('click', navigateToProduct);
+        productTitleEl.addEventListener('click', navigateToProduct);
+        productPriceEl.addEventListener('click', navigateToProduct);
+        buyBtn.addEventListener('click', navigateToProduct);
 
         return card;
     }
