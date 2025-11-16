@@ -8,6 +8,7 @@ const Stripe = require('stripe');
 const helmet = require('helmet');
 const morgan = require('morgan');
 const bodyParser = require('body-parser');
+const axios = require('axios');
 
 require('dotenv').config();
 
@@ -16,6 +17,10 @@ const PORT = process.env.PORT || 3000;
 
 // Initialize Stripe
 const stripe = Stripe(process.env.STRIPE_SECRET_KEY);
+
+// Brevo configuration
+const BREVO_API_KEY = process.env.BREVO_API_KEY;
+const BREVO_API_URL = 'https://api.brevo.com/v3';
 
 // Database connection
 const dbPath = path.join(__dirname, 'db', 'data.sqlite');
@@ -348,6 +353,77 @@ app.post('/api/newsletter', (req, res) => {
     
     res.json({ success: true, message: 'Subscribed successfully' });
   });
+});
+
+// Get all newsletter subscribers
+app.get('/api/admin/newsletter-subscribers', (req, res) => {
+  db.all('SELECT email, subscribed_at FROM newsletter_subs ORDER BY subscribed_at DESC', (err, rows) => {
+    if (err) {
+      return res.status(500).json({ error: 'Database error' });
+    }
+    res.json(rows);
+  });
+});
+
+// Send newsletter email to all subscribers via Brevo
+app.post('/api/send-newsletter', async (req, res) => {
+  const { subject, htmlContent } = req.body;
+  
+  if (!subject || !htmlContent) {
+    return res.status(400).json({ error: 'Subject and htmlContent required' });
+  }
+  
+  if (!BREVO_API_KEY) {
+    return res.status(500).json({ error: 'Brevo API key not configured' });
+  }
+
+  try {
+    // Get all subscribers
+    const subscribers = await new Promise((resolve, reject) => {
+      db.all('SELECT email FROM newsletter_subs', (err, rows) => {
+        if (err) reject(err);
+        else resolve(rows || []);
+      });
+    });
+
+    if (subscribers.length === 0) {
+      return res.status(400).json({ error: 'No subscribers found' });
+    }
+
+    // Send emails via Brevo
+    const emailList = subscribers.map(sub => ({ email: sub.email }));
+    
+    const response = await axios.post(
+      `${BREVO_API_URL}/smtp/email`,
+      {
+        to: emailList,
+        subject: subject,
+        htmlContent: htmlContent,
+        sender: {
+          name: 'FREAK',
+          email: 'noreply@freak.com'
+        }
+      },
+      {
+        headers: {
+          'api-key': BREVO_API_KEY,
+          'Content-Type': 'application/json'
+        }
+      }
+    );
+
+    res.json({ 
+      success: true, 
+      message: `Email sent to ${subscribers.length} subscribers`,
+      messageId: response.data.messageId 
+    });
+  } catch (error) {
+    console.error('Brevo error:', error.response?.data || error.message);
+    res.status(500).json({ 
+      error: 'Failed to send newsletter',
+      details: error.response?.data?.message || error.message 
+    });
+  }
 });
 
 // Admin routes
