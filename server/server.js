@@ -402,7 +402,7 @@ app.post('/api/send-newsletter', async (req, res) => {
         htmlContent: htmlContent,
         sender: {
           name: 'FREAK',
-          email: 'noreply@freak.com'
+          email: 'teddywop02@gmail.com'
         }
       },
       {
