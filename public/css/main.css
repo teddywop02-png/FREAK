@@ -791,6 +791,9 @@ body.splash-active > *:not(.splash-overlay) {
 @media (min-width: 1025px) {
     .product-price {
         flex: 1 0 auto;
+        min-height: 30px;
+        display: flex;
+        align-items: center;
     }
 }
 
