@@ -572,16 +572,16 @@ body.splash-active > *:not(.splash-overlay) {
 .email-input {
     flex: 1;
     padding: 15px 20px;
-    background: #000;
+    background: #fff;
     border: 2px solid #333;
-    color: #fff;
+    color: #000;
     font-size: 16px;
     border-radius: 4px;
 }
 
 .email-input:focus {
     outline: none;
-    border-color: #fff;
+    border-color: #000;
 }
 
 .subscribe-btn {
