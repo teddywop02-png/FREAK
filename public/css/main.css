@@ -699,9 +699,7 @@ body.splash-active > *:not(.splash-overlay) {
     width: 100%;
     height: 300px;
     object-fit: cover;
-    box-shadow: 
-        inset 0 0 40px 15px rgba(0, 0, 0, 0.2),
-        0 8px 20px rgba(0,0,0,0.3);
+    filter: drop-shadow(0 14px 36px rgba(0,0,0,0.6));
 }
 
 .product-info {
@@ -782,7 +780,7 @@ body.splash-active > *:not(.splash-overlay) {
 
 /* Shop Page Styles */
 .shop-header {
-    padding: 60px 0 40px;
+    padding: 80px 0 60px;
     text-align: center;
     flex-shrink: 0;
 }
