@@ -9,12 +9,51 @@ const helmet = require('helmet');
 const morgan = require('morgan');
 const bodyParser = require('body-parser');
 const axios = require('axios');
+const { createClient } = require('@libsql/client');
 
 require('dotenv').config();
+
+// Initialize Turso database client
+let tursoDb = null;
+
+async function initializeTurso() {
+  try {
+    const dbUrl = process.env.TURSO_DB_URL;
+    const authToken = process.env.TURSO_API_TOKEN;
+    
+    if (!dbUrl || !authToken) {
+      console.error('Missing Turso credentials in .env file');
+      return false;
+    }
+
+    tursoDb = createClient({
+      url: dbUrl,
+      authToken: authToken,
+    });
+
+    // Create newsletter_subs table if it doesn't exist
+    await tursoDb.execute(`
+      CREATE TABLE IF NOT EXISTS newsletter_subs (
+        id INTEGER PRIMARY KEY AUTOINCREMENT,
+        email TEXT UNIQUE NOT NULL,
+        subscribed_at DATETIME DEFAULT CURRENT_TIMESTAMP
+      )
+    `);
+
+    console.log('Connected to Turso database');
+    return true;
+  } catch (err) {
+    console.error('Error initializing Turso:', err.message);
+    return false;
+  }
+}
 
 // Vercel redeploy trigger - v2
 const app = express();
 const PORT = process.env.PORT || 3000;
+
+// Initialize Turso on startup
+initializeTurso();
 
 // Initialize Stripe
 const stripe = Stripe(process.env.STRIPE_SECRET_KEY);
@@ -23,7 +62,7 @@ const stripe = Stripe(process.env.STRIPE_SECRET_KEY);
 const BREVO_API_KEY = process.env.BREVO_API_KEY;
 const BREVO_API_URL = 'https://api.brevo.com/v3';
 
-// Database connection
+// Database connection for local SQLite (products, users, orders)
 const dbPath = path.join(__dirname, 'db', 'data.sqlite');
 const db = new sqlite3.Database(dbPath, (err) => {
   if (err) {
@@ -411,63 +450,79 @@ app.post('/webhook', express.raw({ type: 'application/json' }), (req, res) => {
 });
 
 // Newsletter subscription
-app.post('/api/newsletter', (req, res) => {
+app.post('/api/newsletter', async (req, res) => {
   const { email } = req.body;
   
   if (!email || !email.includes('@')) {
     return res.status(400).json({ error: 'Invalid email address' });
   }
   
-  // Normalize email: trim whitespace and convert to lowercase
-  const normalizedEmail = email.trim().toLowerCase();
+  // If Turso is not initialized, inform the user
+  if (!tursoDb) {
+    return res.status(503).json({ error: 'Newsletter service temporarily unavailable' });
+  }
   
-  // First ensure table exists
-  db.run(`CREATE TABLE IF NOT EXISTS newsletter_subs (
-    id INTEGER PRIMARY KEY AUTOINCREMENT,
-    email TEXT UNIQUE NOT NULL,
-    subscribed_at DATETIME DEFAULT CURRENT_TIMESTAMP
-  )`, (createErr) => {
-    if (createErr) {
-      console.error('Error creating newsletter_subs table:', createErr.message);
-      return res.status(500).json({ error: 'Database error', details: createErr.message });
-    }
+  try {
+    // Normalize email: trim whitespace and convert to lowercase
+    const normalizedEmail = email.trim().toLowerCase();
+    
+    // Ensure table exists
+    await tursoDb.execute(`
+      CREATE TABLE IF NOT EXISTS newsletter_subs (
+        id INTEGER PRIMARY KEY AUTOINCREMENT,
+        email TEXT UNIQUE NOT NULL,
+        subscribed_at DATETIME DEFAULT CURRENT_TIMESTAMP
+      )
+    `);
 
-    db.run('INSERT INTO newsletter_subs (email) VALUES (?)', [normalizedEmail], function(err) {
-      if (err) {
-        // Check if it's a unique constraint error (duplicate email)
-        if (err.message.includes('UNIQUE constraint failed')) {
-          return res.status(409).json({ error: 'Email already subscribed' });
-        }
-        console.error('Error inserting newsletter email:', err.message);
-        return res.status(500).json({ error: 'Database error', details: err.message });
-      }
-      
-      res.json({ success: true, message: 'Subscribed successfully' });
+    // Insert email
+    await tursoDb.execute({
+      sql: 'INSERT INTO newsletter_subs (email) VALUES (?)',
+      args: [normalizedEmail]
     });
-  });
+    
+    res.json({ success: true, message: 'Subscribed successfully' });
+  } catch (err) {
+    // Check if it's a unique constraint error (duplicate email)
+    if (err.message && err.message.includes('UNIQUE constraint failed')) {
+      return res.status(409).json({ error: 'Email already subscribed' });
+    }
+    console.error('Error inserting newsletter email:', err.message);
+    res.status(500).json({ error: 'Database error', details: err.message });
+  }
 });
 
 // Get all newsletter subscribers
-app.get('/api/admin/newsletter-subscribers', (req, res) => {
-  // First ensure table exists
-  db.run(`CREATE TABLE IF NOT EXISTS newsletter_subs (
-    id INTEGER PRIMARY KEY AUTOINCREMENT,
-    email TEXT UNIQUE NOT NULL,
-    subscribed_at DATETIME DEFAULT CURRENT_TIMESTAMP
-  )`, (createErr) => {
-    if (createErr) {
-      console.error('Error creating newsletter_subs table:', createErr.message);
-      return res.status(500).json({ error: 'Database error' });
-    }
+app.get('/api/admin/newsletter-subscribers', async (req, res) => {
+  // If Turso is not initialized, return empty list
+  if (!tursoDb) {
+    return res.json([]);
+  }
+  
+  try {
+    // Ensure table exists
+    await tursoDb.execute(`
+      CREATE TABLE IF NOT EXISTS newsletter_subs (
+        id INTEGER PRIMARY KEY AUTOINCREMENT,
+        email TEXT UNIQUE NOT NULL,
+        subscribed_at DATETIME DEFAULT CURRENT_TIMESTAMP
+      )
+    `);
 
-    db.all('SELECT email, subscribed_at FROM newsletter_subs ORDER BY subscribed_at DESC', (err, rows) => {
-      if (err) {
-        console.error('Error querying newsletter_subs:', err.message);
-        return res.status(500).json({ error: 'Database error' });
-      }
-      res.json(rows || []);
-    });
-  });
+    // Query subscribers
+    const result = await tursoDb.execute('SELECT email, subscribed_at FROM newsletter_subs ORDER BY subscribed_at DESC');
+    
+    // Transform rows format from Turso
+    const rows = result.rows ? result.rows.map(row => ({
+      email: row[1],
+      subscribed_at: row[2]
+    })) : [];
+    
+    res.json(rows);
+  } catch (err) {
+    console.error('Error querying newsletter_subs:', err.message);
+    res.status(500).json({ error: 'Database error', details: err.message });
+  }
 });
 
 // Send newsletter email to all subscribers via Brevo
