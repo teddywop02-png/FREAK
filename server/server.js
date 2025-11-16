@@ -538,25 +538,23 @@ app.post('/api/send-newsletter', async (req, res) => {
   }
 
   try {
-    // Get all subscribers
-    const subscribers = await new Promise((resolve, reject) => {
-      db.all('SELECT email FROM newsletter_subs', (err, rows) => {
-        if (err) reject(err);
-        else resolve(rows || []);
-      });
-    });
+    // Get all subscribers from Turso
+    if (!tursoDb) {
+      return res.status(503).json({ error: 'Database service unavailable' });
+    }
+
+    const result = await tursoDb.execute('SELECT email FROM newsletter_subs');
+    const subscribers = result.rows ? result.rows.map(row => ({ email: row[0] })) : [];
 
     if (subscribers.length === 0) {
       return res.status(400).json({ error: 'No subscribers found' });
     }
 
     // Send emails via Brevo
-    const emailList = subscribers.map(sub => ({ email: sub.email }));
-    
     const response = await axios.post(
       `${BREVO_API_URL}/smtp/email`,
       {
-        to: emailList,
+        to: subscribers,
         subject: subject,
         htmlContent: htmlContent,
         sender: {
