@@ -110,66 +110,6 @@ function insertSeedData() {
       }
     );
 
-    // Insert sample products
-    const sampleProducts = [
-      {
-        title: 'FREAK Classic Tee',
-        description: 'Premium cotton t-shirt with minimalist FREAK logo',
-        images: JSON.stringify(['/images/tee-black.jpg', '/images/tee-white.jpg']),
-        category: 't-shirt'
-      },
-      {
-        title: 'FREAK Signature Hoodie',
-        description: 'Heavyweight hoodie with embroidered FREAK branding',
-        images: JSON.stringify(['/images/hoodie-black.jpg', '/images/hoodie-grey.jpg']),
-        category: 'hoodie'
-      },
-      {
-        title: 'FREAK Snapback Cap',
-        description: 'Adjustable snapback with 3D embroidered logo',
-        images: JSON.stringify(['/images/cap-black.jpg']),
-        category: 'accessories'
-      }
-    ];
-
-    sampleProducts.forEach((product, index) => {
-      db.run(`INSERT INTO products (title, description, images, category) VALUES (?, ?, ?, ?)`,
-        [product.title, product.description, product.images, product.category],
-        function(err) {
-          if (err) {
-            console.error('Error inserting product:', err.message);
-          } else {
-            const productId = this.lastID;
-            console.log(`Product created: ${product.title}`);
-            
-            // Add variants for each product
-            let variants = [];
-            if (product.category === 't-shirt' || product.category === 'hoodie') {
-              variants = [
-                { size: 'S', price: product.category === 'hoodie' ? 8900 : 4500 },
-                { size: 'M', price: product.category === 'hoodie' ? 8900 : 4500 },
-                { size: 'L', price: product.category === 'hoodie' ? 8900 : 4500 },
-                { size: 'XL', price: product.category === 'hoodie' ? 8900 : 4500 }
-              ];
-            } else {
-              variants = [{ size: 'ONE SIZE', price: 3500 }];
-            }
-            
-            variants.forEach(variant => {
-              db.run(`INSERT INTO product_variants (product_id, size, price, stock_total) VALUES (?, ?, ?, ?)`,
-                [productId, variant.size, variant.price, 20],
-                function(err) {
-                  if (err) {
-                    console.error('Error inserting variant:', err.message);
-                  }
-                }
-              );
-            });
-          }
-        }
-      );
-    });
-
     // Create active drop
     const dropKey = 'FREAK-TEST-KEY-2025';
     const hashedDropKey = bcrypt.hashSync(dropKey, 10);
