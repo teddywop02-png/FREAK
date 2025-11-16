@@ -110,7 +110,8 @@ class ShopPage {
 
         productsContainer.innerHTML = '';
 
-        this.filteredProducts.forEach((product, index) => {
+        // Only display the first 3 products
+        this.filteredProducts.slice(0, 3).forEach((product, index) => {
             const productCard = this.createProductCard(product, index + 1);
             productsContainer.appendChild(productCard);
         });
