@@ -11,6 +11,12 @@ class ContinuousHorizontalScroller {
         this.running = false;
         this.lastTs = 0;
 
+        // Drag/scroll properties
+        this.isDragging = false;
+        this.startX = 0;
+        this.dragOffset = 0;
+        this.dragAutoResumeTimer = null;
+
         // create images (duplicated sequence for seamless loop)
         this.images = [];
         // first copy
@@ -22,6 +28,7 @@ class ContinuousHorizontalScroller {
             img.style.display = 'block';
             img.style.objectFit = 'cover';
             img.style.flexShrink = '0';
+            img.style.cursor = 'grab';
             this.track.appendChild(img);
             this.images.push(img);
         }
@@ -34,6 +41,7 @@ class ContinuousHorizontalScroller {
             img.style.display = 'block';
             img.style.objectFit = 'cover';
             img.style.flexShrink = '0';
+            img.style.cursor = 'grab';
             this.track.appendChild(img);
         }
 
@@ -49,13 +57,64 @@ class ContinuousHorizontalScroller {
             this.singleWidth = this.track.scrollWidth / 2;
             this.offset = -this.singleWidth;
             this.lastTs = performance.now();
+            this.setupDragListeners();
             this.start();
         }).catch(() => {
             this.singleWidth = this.track.scrollWidth / 2 || 1000;
             this.offset = -this.singleWidth;
             this.lastTs = performance.now();
+            this.setupDragListeners();
             this.start();
         });
+    }
+
+    setupDragListeners() {
+        this.track.addEventListener('mousedown', this._onDragStart.bind(this));
+        this.track.addEventListener('touchstart', this._onDragStart.bind(this));
+        document.addEventListener('mousemove', this._onDragMove.bind(this));
+        document.addEventListener('touchmove', this._onDragMove.bind(this));
+        document.addEventListener('mouseup', this._onDragEnd.bind(this));
+        document.addEventListener('touchend', this._onDragEnd.bind(this));
+    }
+
+    _onDragStart(e) {
+        this.isDragging = true;
+        this.startX = e.type.includes('touch') ? e.touches[0].clientX : e.clientX;
+        this.dragOffset = 0;
+        this.stop(); // Pause auto-scroll during drag
+        
+        // Update cursor
+        if (e.type.includes('mouse')) {
+            this.track.style.cursor = 'grabbing';
+        }
+    }
+
+    _onDragMove(e) {
+        if (!this.isDragging) return;
+        
+        const currentX = e.type.includes('touch') ? e.touches[0].clientX : e.clientX;
+        this.dragOffset = currentX - this.startX;
+        
+        // Apply drag offset to current position
+        this.track.style.transform = `translateX(${this.offset + this.dragOffset}px)`;
+    }
+
+    _onDragEnd(e) {
+        if (!this.isDragging) return;
+        
+        this.isDragging = false;
+        this.offset += this.dragOffset;
+        this.dragOffset = 0;
+        this.track.style.cursor = 'grab';
+        
+        // Normalize offset if needed
+        if (this.offset >= 0) {
+            this.offset -= this.singleWidth;
+        }
+        
+        // Resume auto-scroll after a short delay
+        this.lastTs = performance.now();
+        this.start();
     }
 
     start() {
