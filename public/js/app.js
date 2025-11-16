@@ -219,6 +219,11 @@ class FreakApp {
     }
 
     setupNewsletterForm() {
+        // Skip if we're on the subscribe page - subscribe.js handles it there
+        if (window.location.pathname.includes('/subscribe')) {
+            return;
+        }
+        
         const newsletterForms = document.querySelectorAll('#newsletterForm');
         
         newsletterForms.forEach(form => {
