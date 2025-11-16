@@ -726,6 +726,7 @@ body.splash-active > *:not(.splash-overlay) {
         display: flex;
         flex-direction: column;
         min-height: 200px;
+        gap: 10px;
     }
 }
 
@@ -794,6 +795,8 @@ body.splash-active > *:not(.splash-overlay) {
         min-height: 30px;
         display: flex;
         align-items: center;
+        margin-bottom: 0;
+        margin-top: auto;
     }
 }
 
