@@ -1,3 +1,7 @@
+// Vercel Analytics
+import { Analytics } from '@vercel/analytics/web';
+Analytics();
+
 // Main Application JavaScript
 class FreakApp {
     constructor() {
