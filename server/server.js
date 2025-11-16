@@ -12,6 +12,7 @@ const axios = require('axios');
 
 require('dotenv').config();
 
+// Vercel redeploy trigger - v2
 const app = express();
 const PORT = process.env.PORT || 3000;
 
