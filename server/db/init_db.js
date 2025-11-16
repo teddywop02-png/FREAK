@@ -113,22 +113,22 @@ function insertSeedData() {
     // Insert sample products (only if they don't exist)
     const sampleProducts = [
       {
-        title: 'FREAK Classic Tee',
-        description: 'Premium cotton t-shirt with minimalist FREAK logo',
-        images: JSON.stringify(['/images/tee-black.jpg', '/images/tee-white.jpg']),
+        title: 'DEAD INSIDE black edition',
+        description: 'Premium streetwear t-shirt',
+        images: JSON.stringify(['/images/tricouri/deadinsideblack1.png', '/images/tricouri/deadinsideblack2.png', '/images/tricouri/deadinsideblack3.png', '/images/tricouri/marimi.jpeg']),
         category: 't-shirt'
       },
       {
-        title: 'FREAK Signature Hoodie',
-        description: 'Heavyweight hoodie with embroidered FREAK branding',
-        images: JSON.stringify(['/images/hoodie-black.jpg', '/images/hoodie-grey.jpg']),
-        category: 'hoodie'
+        title: 'DEAD INSIDE white edition',
+        description: 'Premium streetwear t-shirt',
+        images: JSON.stringify(['/images/tricouri/deadinsidewhite1.png', '/images/tricouri/deadinsidewhite2.png', '/images/tricouri/deadinsidewhite3.png', '/images/tricouri/marimi.jpeg']),
+        category: 't-shirt'
       },
       {
-        title: 'FREAK Snapback Cap',
-        description: 'Adjustable snapback with 3D embroidered logo',
-        images: JSON.stringify(['/images/cap-black.jpg']),
-        category: 'accessories'
+        title: 'STRANGE HEARTS',
+        description: 'Premium streetwear t-shirt',
+        images: JSON.stringify(['/images/tricouri/strangehearts1.png', '/images/tricouri/strangehearts2.png', '/images/tricouri/strangehearts3.png', '/images/tricouri/marimi.jpeg']),
+        category: 't-shirt'
       }
     ];
 
@@ -147,13 +147,13 @@ function insertSeedData() {
               let variants = [];
               if (product.category === 't-shirt' || product.category === 'hoodie') {
                 variants = [
-                  { size: 'S', price: product.category === 'hoodie' ? 8900 : 4500 },
-                  { size: 'M', price: product.category === 'hoodie' ? 8900 : 4500 },
-                  { size: 'L', price: product.category === 'hoodie' ? 8900 : 4500 },
-                  { size: 'XL', price: product.category === 'hoodie' ? 8900 : 4500 }
+                  { size: 'S', price: 15000 },
+                  { size: 'M', price: 15000 },
+                  { size: 'L', price: 15000 },
+                  { size: 'XL', price: 15000 }
                 ];
               } else {
-                variants = [{ size: 'ONE SIZE', price: 3500 }];
+                variants = [{ size: 'ONE SIZE', price: 15000 }];
               }
               
               variants.forEach(variant => {
