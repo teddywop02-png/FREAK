@@ -1,0 +1,30 @@
+{
+  "name": "freak-streetwear",
+  "version": "1.0.0",
+  "description": "FREAK Streetwear Brand - Full Stack Application",
+  "main": "server/server.js",
+  "scripts": {
+    "start": "node server/server.js",
+    "dev": "nodemon server/server.js",
+    "init-db": "node server/db/init_db.js"
+  },
+  "dependencies": {
+    "express": "^4.18.2",
+    "sqlite3": "^5.1.6",
+    "bcryptjs": "^2.4.3",
+    "jsonwebtoken": "^9.0.2",
+    "stripe": "^13.6.0",
+    "cors": "^2.8.5",
+    "dotenv": "^16.3.1",
+    "express-session": "^1.17.3",
+    "body-parser": "^1.20.2",
+    "helmet": "^7.0.0",
+    "morgan": "^1.10.0"
+  },
+  "devDependencies": {
+    "nodemon": "^3.0.1"
+  },
+  "keywords": ["streetwear", "fashion", "ecommerce", "freak"],
+  "author": "FREAK Team",
+  "license": "MIT"
+}

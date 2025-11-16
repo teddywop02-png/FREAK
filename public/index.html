@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <title>FREAK - Streetwear Brand</title>
+    <link rel="stylesheet" href="/css/main.css">
+    <script src="https://js.stripe.com/v3/"></script>
+</head>
+<body>
+    <!-- Fullscreen Splash Overlay (Join The Team) -->
+    <div id="splashOverlay" class="splash-overlay">
+        <img src="/images/jointheteam.png" alt="Join the Team" id="splashImage">
+    </div>
+
+    <!-- Fullscreen Menu Overlay -->
+    <div class="menu-overlay" id="menuOverlay">
+        <div class="menu-content">
+            <nav class="menu-nav">
+                <a href="/" class="menu-link active">HOME</a>
+                <a href="/drop" class="menu-link">DROP</a>
+                <a href="/shop" class="menu-link">SHOP</a>
+                <a href="/subscribe" class="menu-link">SUBSCRIBE</a>
+                <a href="/admin" class="menu-link">ADMIN</a>
+            </nav>
+        </div>
+    </div>
+
+    <!-- Hero Slideshow -->
+    <section class="hero-section">
+        <header class="hero-header">
+            <img src="/images/freak.png" alt="FREAK" class="hero-logo-image">
+        </header>
+
+        <div class="carousel-container">
+            <div class="carousel-track" id="carouselTrack"></div>
+        </div>
+
+        <div class="hero-footer">
+            <!-- Move menu/logo button under the carousel -->
+            <div class="logo-wrapper">
+                <div class="logo-circle" id="logoCircle" title="Open Menu">
+                    <img src="/images/logo.png" alt="FREAK Logo" id="logoImage">
+                    <span class="menu-label">MENU</span>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+
+    <!-- Scripts -->
+    <script src="/js/app.js"></script>
+    <script src="/js/slideshow.js"></script>
+</body>
+</html>

@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <title>FREAK - Admin</title>
+    <link rel="stylesheet" href="/css/main.css">
+</head>
+<body class="admin-body">
+    <!-- Logo Circle Menu Trigger -->
+    <div class="logo-circle" id="logoCircle">
+        <img src="/images/logo.png" alt="FREAK Logo">
+        <span class="menu-label">MENU</span>
+    </div>
+
+    <!-- Fullscreen Menu Overlay -->
+    <div class="menu-overlay" id="menuOverlay">
+        <div class="menu-content">
+            <nav class="menu-nav">
+                <a href="/" class="menu-link">HOME</a>
+                <a href="/drop" class="menu-link">DROP</a>
+                <a href="/shop" class="menu-link">SHOP</a>
+                <a href="/subscribe" class="menu-link">SUBSCRIBE</a>
+                <a href="/admin" class="menu-link active">ADMIN</a>
+            </nav>
+        </div>
+    </div>
+
+    <!-- Login Modal -->
+    <div class="admin-login-overlay" id="loginOverlay">
+        <div class="login-modal">
+            <h2>ADMIN LOGIN</h2>
+            <form class="login-form" id="loginForm">
+                <input type="email" class="login-input" placeholder="Email" required>
+                <input type="password" class="login-input" placeholder="Password" required>
+                <button type="submit" class="login-btn">LOGIN</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Admin Dashboard -->
+    <div class="admin-dashboard" id="adminDashboard" style="display: none;">
+        <!-- Header -->
+        <header class="admin-header">
+            <h1>FREAK ADMIN</h1>
+            <button class="logout-btn" id="logoutBtn">LOGOUT</button>
+        </header>
+
+        <!-- Navigation -->
+        <nav class="admin-nav">
+            <button class="nav-tab active" data-tab="products">PRODUCTS</button>
+            <button class="nav-tab" data-tab="drops">DROPS</button>
+            <button class="nav-tab" data-tab="orders">ORDERS</button>
+            <button class="nav-tab" data-tab="subscribers">SUBSCRIBERS</button>
+        </nav>
+
+        <!-- Products Tab -->
+        <div class="tab-content active" id="productsTab">
+            <div class="tab-header">
+                <h2>Products Management</h2>
+                <button class="add-btn" id="addProductBtn">+ ADD PRODUCT</button>
+            </div>
+            <div class="products-table" id="productsTable">
+                <!-- Dynamic content -->
+            </div>
+        </div>
+
+        <!-- Drops Tab -->
+        <div class="tab-content" id="dropsTab">
+            <div class="tab-header">
+                <h2>Drop Management</h2>
+                <button class="add-btn" id="addDropBtn">+ CREATE DROP</button>
+            </div>
+            <div class="drops-table" id="dropsTable">
+                <!-- Dynamic content -->
+            </div>
+        </div>
+
+        <!-- Orders Tab -->
+        <div class="tab-content" id="ordersTab">
+            <div class="tab-header">
+                <h2>Orders</h2>
+            </div>
+            <div class="orders-table" id="ordersTable">
+                <!-- Dynamic content -->
+            </div>
+        </div>
+
+        <!-- Subscribers Tab -->
+        <div class="tab-content" id="subscribersTab">
+            <div class="tab-header">
+                <h2>Newsletter Subscribers</h2>
+            </div>
+            <div class="subscribers-table" id="subscribersTable">
+                <!-- Dynamic content -->
+            </div>
+        </div>
+    </div>
+
+    <!-- Product Form Modal -->
+    <div class="modal-overlay" id="productModal">
+        <div class="modal-content admin-modal">
+            <h3 id="productModalTitle">Add Product</h3>
+            <form class="admin-form" id="productForm">
+                <input type="text" class="form-input" placeholder="Product Title" required>
+                <textarea class="form-input" placeholder="Description" rows="3" required></textarea>
+                <input type="text" class="form-input" placeholder="Image URLs (comma separated)" required>
+                <select class="form-input" required>
+                    <option value="">Select Category</option>
+                    <option value="t-shirt">T-Shirt</option>
+                    <option value="hoodie">Hoodie</option>
+                    <option value="accessories">Accessories</option>
+                </select>
+                <div class="form-actions">
+                    <button type="submit" class="btn-primary">SAVE</button>
+                    <button type="button" class="btn-secondary" id="closeProductModal">CANCEL</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Drop Form Modal -->
+    <div class="modal-overlay" id="dropModal">
+        <div class="modal-content admin-modal">
+            <h3 id="dropModalTitle">Create Drop</h3>
+            <form class="admin-form" id="dropForm">
+                <input type="text" class="form-input" placeholder="Drop Title" required>
+                <textarea class="form-input" placeholder="Description" rows="3" required></textarea>
+                <input type="datetime-local" class="form-input" placeholder="Start Date" required>
+                <input type="datetime-local" class="form-input" placeholder="End Date" required>
+                <input type="text" class="form-input" placeholder="Drop Key" required>
+                <div class="form-actions">
+                    <button type="submit" class="btn-primary">CREATE</button>
+                    <button type="button" class="btn-secondary" id="closeDropModal">CANCEL</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Footer with Menu Button -->
+    <footer class="footer">
+        <p style="margin: 0; flex: 1; text-align: left;">&copy; 2025 FREAK. All rights reserved.</p>
+        <div style="flex: 1; display: flex; justify-content: center;">
+            <div class="logo-circle" id="logoCircle" style="width: 100px; height: 100px; background: transparent; box-shadow: none;">
+                <img src="/images/logo.png" alt="FREAK Logo">
+                <span class="menu-label">MENU</span>
+            </div>
+        </div>
+        <div style="flex: 1;"></div>
+    </footer>
+
+    <!-- Scripts -->
+    <script src="/js/app.js"></script>
+    <script src="/js/admin.js"></script>
+</body>
+</html>

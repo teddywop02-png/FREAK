@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <title>FREAK - Exclusive Drop</title>
+    <link rel="stylesheet" href="/css/main.css">
+    <script src="https://js.stripe.com/v3/"></script>
+</head>
+<body>
+    <!-- Logo Circle Menu Trigger -->
+    <div class="logo-circle" id="logoCircle">
+        <img src="/images/logo.png" alt="FREAK Logo">
+        <span class="menu-label">MENU</span>
+    </div>
+
+    <!-- Fullscreen Menu Overlay -->
+    <div class="menu-overlay" id="menuOverlay">
+        <div class="menu-content">
+            <nav class="menu-nav">
+                <a href="/" class="menu-link">HOME</a>
+                <a href="/drop" class="menu-link active">DROP</a>
+                <a href="/shop" class="menu-link">SHOP</a>
+                <a href="/subscribe" class="menu-link">SUBSCRIBE</a>
+                <a href="/admin" class="menu-link">ADMIN</a>
+            </nav>
+        </div>
+    </div>
+
+    <!-- Drop Key Modal -->
+    <div class="modal-overlay" id="keyModal">
+        <div class="modal-content">
+            <h2>ENTER DROP KEY</h2>
+            <p>Access to this exclusive drop requires a valid key</p>
+            <form class="key-form" id="keyForm">
+                <input type="text" class="key-input" placeholder="Enter drop key" required>
+                <button type="submit" class="submit-btn">UNLOCK</button>
+            </form>
+            <button class="close-modal" id="closeModal">×</button>
+        </div>
+    </div>
+
+    <!-- Drop Header -->
+    <section class="drop-header">
+        <div class="container">
+            <h1 class="drop-title" id="dropTitle">EXCLUSIVE DROP</h1>
+            <div class="drop-timer" id="dropTimer">
+                <div class="timer-unit">
+                    <span class="timer-value" id="days">00</span>
+                    <span class="timer-label">DAYS</span>
+                </div>
+                <div class="timer-unit">
+                    <span class="timer-value" id="hours">00</span>
+                    <span class="timer-label">HOURS</span>
+                </div>
+                <div class="timer-unit">
+                    <span class="timer-value" id="minutes">00</span>
+                    <span class="timer-label">MINUTES</span>
+                </div>
+                <div class="timer-unit">
+                    <span class="timer-value" id="seconds">00</span>
+                    <span class="timer-label">SECONDS</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Drop Products -->
+    <section class="drop-products">
+        <div class="container">
+            <div class="products-grid" id="dropProducts">
+                <!-- Dynamic content will be loaded here -->
+            </div>
+        </div>
+    </section>
+
+    <!-- No Drop Message -->
+    <div class="no-drop-message" id="noDropMessage" style="display: none;">
+        <div class="container">
+            <h2>No Active Drop</h2>
+            <p>There is no active drop at the moment. Check back soon for exclusive releases.</p>
+            <a href="/shop" class="btn-primary">Browse Shop</a>
+        </div>
+    </div>
+
+    <!-- Footer with Menu Button -->
+    <footer class="footer">
+        <p style="margin: 0; flex: 1; text-align: left;">&copy; 2025 FREAK. All rights reserved.</p>
+        <div style="flex: 1; display: flex; justify-content: center;">
+            <div class="logo-circle" id="logoCircle" style="width: 100px; height: 100px; background: transparent; box-shadow: none;">
+                <img src="/images/logo.png" alt="FREAK Logo">
+                <span class="menu-label">MENU</span>
+            </div>
+        </div>
+        <div style="flex: 1;"></div>
+    </footer>
+
+    <!-- Scripts -->
+    <script src="/js/app.js"></script>
+    <script src="/js/drop.js"></script>
+</body>
+</html>
