@@ -421,26 +421,52 @@ app.post('/api/newsletter', (req, res) => {
   // Normalize email: trim whitespace and convert to lowercase
   const normalizedEmail = email.trim().toLowerCase();
   
-  db.run('INSERT INTO newsletter_subs (email) VALUES (?)', [normalizedEmail], function(err) {
-    if (err) {
-      // Check if it's a unique constraint error (duplicate email)
-      if (err.message.includes('UNIQUE constraint failed')) {
-        return res.status(409).json({ error: 'Email already subscribed' });
-      }
-      return res.status(500).json({ error: 'Database error', details: err.message });
+  // First ensure table exists
+  db.run(`CREATE TABLE IF NOT EXISTS newsletter_subs (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    email TEXT UNIQUE NOT NULL,
+    subscribed_at DATETIME DEFAULT CURRENT_TIMESTAMP
+  )`, (createErr) => {
+    if (createErr) {
+      console.error('Error creating newsletter_subs table:', createErr.message);
+      return res.status(500).json({ error: 'Database error', details: createErr.message });
     }
-    
-    res.json({ success: true, message: 'Subscribed successfully' });
+
+    db.run('INSERT INTO newsletter_subs (email) VALUES (?)', [normalizedEmail], function(err) {
+      if (err) {
+        // Check if it's a unique constraint error (duplicate email)
+        if (err.message.includes('UNIQUE constraint failed')) {
+          return res.status(409).json({ error: 'Email already subscribed' });
+        }
+        console.error('Error inserting newsletter email:', err.message);
+        return res.status(500).json({ error: 'Database error', details: err.message });
+      }
+      
+      res.json({ success: true, message: 'Subscribed successfully' });
+    });
   });
 });
 
 // Get all newsletter subscribers
 app.get('/api/admin/newsletter-subscribers', (req, res) => {
-  db.all('SELECT email, subscribed_at FROM newsletter_subs ORDER BY subscribed_at DESC', (err, rows) => {
-    if (err) {
+  // First ensure table exists
+  db.run(`CREATE TABLE IF NOT EXISTS newsletter_subs (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    email TEXT UNIQUE NOT NULL,
+    subscribed_at DATETIME DEFAULT CURRENT_TIMESTAMP
+  )`, (createErr) => {
+    if (createErr) {
+      console.error('Error creating newsletter_subs table:', createErr.message);
       return res.status(500).json({ error: 'Database error' });
     }
-    res.json(rows);
+
+    db.all('SELECT email, subscribed_at FROM newsletter_subs ORDER BY subscribed_at DESC', (err, rows) => {
+      if (err) {
+        console.error('Error querying newsletter_subs:', err.message);
+        return res.status(500).json({ error: 'Database error' });
+      }
+      res.json(rows || []);
+    });
   });
 });
 
