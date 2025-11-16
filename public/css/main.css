@@ -686,7 +686,7 @@ body.splash-active > *:not(.splash-overlay) {
 .product-card {
     background: transparent;
     border-radius: 8px;
-    overflow: hidden;
+    overflow: visible;
     transition: all 0.3s ease;
 }
 
