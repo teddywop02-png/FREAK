@@ -6,7 +6,7 @@
 }
 
 body {
-    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+    font-family: 'Courier New', 'Courier', monospace;
     background-color: #fff;
     color: #000;
     line-height: 1.6;
@@ -14,6 +14,15 @@ body {
     display: flex;
     flex-direction: column;
     min-height: 100vh;
+    font-weight: 400;
+    letter-spacing: 0.5px;
+}
+
+h1, h2, h3, h4, h5, h6 {
+    font-family: 'Courier New', 'Courier', monospace;
+    font-weight: 900;
+    text-transform: uppercase;
+    letter-spacing: 1px;
 }
 
 .container {
@@ -232,6 +241,8 @@ body.splash-active > *:not(.splash-overlay) {
     letter-spacing: 10px;
     margin: 0;
     color: #000;
+    font-family: 'Courier New', 'Courier', monospace;
+    text-transform: uppercase;
 }
 
 .hero-subtitle {
@@ -623,6 +634,8 @@ body.splash-active > *:not(.splash-overlay) {
     font-weight: 900;
     letter-spacing: 8px;
     margin-bottom: 40px;
+    font-family: 'Courier New', 'Courier', monospace;
+    text-transform: uppercase;
 }
 
 .drop-timer {
@@ -776,6 +789,8 @@ body.splash-active > *:not(.splash-overlay) {
     font-weight: 900;
     letter-spacing: 6px;
     margin-bottom: 20px;
+    font-family: 'Courier New', 'Courier', monospace;
+    text-transform: uppercase;
 }
 
 .shop-subtitle {
@@ -2393,6 +2408,8 @@ body.splash-active > *:not(.splash-overlay) {
     letter-spacing: 6px;
     margin-bottom: 20px;
     color: #000;
+    font-family: 'Courier New', 'Courier', monospace;
+    text-transform: uppercase;
 }
 
 .detail-description {
@@ -2637,6 +2654,8 @@ body.splash-active > *:not(.splash-overlay) {
     letter-spacing: 6px;
     margin-bottom: 20px;
     color: #000;
+    font-family: 'Courier New', 'Courier', monospace;
+    text-transform: uppercase;
 }
 
 .subscribe-subtitle {
