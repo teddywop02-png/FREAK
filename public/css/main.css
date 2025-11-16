@@ -738,6 +738,11 @@ body.splash-active > *:not(.splash-overlay) {
 @media (min-width: 1025px) {
     .product-title {
         flex: 0 0 auto;
+        min-height: 56px;
+        display: -webkit-box;
+        -webkit-line-clamp: 2;
+        -webkit-box-orient: vertical;
+        overflow: hidden;
     }
 }
 
