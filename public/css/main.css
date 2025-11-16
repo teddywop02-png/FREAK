@@ -719,12 +719,16 @@ body.splash-active > *:not(.splash-overlay) {
 .product-info {
     padding: 25px;
     background: transparent;
+    display: flex;
+    flex-direction: column;
+    min-height: 200px;
 }
 
 .product-title {
     font-size: 24px;
     font-weight: 700;
     margin-bottom: 10px;
+    flex: 0 0 auto;
 }
 
 .product-description {
@@ -767,6 +771,7 @@ body.splash-active > *:not(.splash-overlay) {
     font-size: 22px;
     font-weight: 700;
     margin-bottom: 15px;
+    flex: 1 0 auto;
 }
 
 .buy-btn {
@@ -780,6 +785,7 @@ body.splash-active > *:not(.splash-overlay) {
     cursor: pointer;
     border-radius: 4px;
     transition: all 0.3s ease;
+    flex: 0 0 auto;
 }
 
 .buy-btn:hover {
