@@ -676,7 +676,7 @@ body.splash-active > *:not(.splash-overlay) {
     flex: 1;
     display: flex;
     flex-direction: column;
-    padding: 40px 0 60px 0;
+    padding: 20px 0 60px 0;
 }
 
 .drop-products {
@@ -832,7 +832,7 @@ body.splash-active > *:not(.splash-overlay) {
 
 /* Shop Page Styles */
 .shop-header {
-    padding: 100px 20px 40px;
+    padding: 60px 20px 20px;
     text-align: center;
     flex-shrink: 0;
     display: flex;
@@ -841,9 +841,18 @@ body.splash-active > *:not(.splash-overlay) {
     min-height: 200px;
 }
 
-.shop-header .hero-logo-image {
-    max-width: 700px;
+.shop-header .container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
     width: 100%;
+}
+
+.shop-header .hero-logo-image {
+    max-width: 100%;
+    width: 90vw;
+    max-height: 500px;
+    object-fit: contain;
 }
 
 .shop-title {
@@ -2738,7 +2747,7 @@ body.splash-active > *:not(.splash-overlay) {
 /* Subscribe Page */
 .subscribe-section {
     flex: 1;
-    padding: 80px 20px 40px;
+    padding: 60px 20px 20px;
     display: flex;
     align-items: center;
     justify-content: center;
