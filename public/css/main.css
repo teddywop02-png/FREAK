@@ -254,11 +254,13 @@ body.splash-active > *:not(.splash-overlay) {
 }
 
 .hero-logo-image {
-    max-width: 300px;
+    max-width: 400px;
+    min-height: 100px;
     height: auto;
     object-fit: contain;
     display: block;
     margin: 0 auto;
+    width: 100%;
 }
 
 .carousel-container {
@@ -830,9 +832,18 @@ body.splash-active > *:not(.splash-overlay) {
 
 /* Shop Page Styles */
 .shop-header {
-    padding: 80px 0 60px;
+    padding: 100px 20px 80px;
     text-align: center;
     flex-shrink: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 200px;
+}
+
+.shop-header .hero-logo-image {
+    max-width: 500px;
+    width: 100%;
 }
 
 .shop-title {
@@ -2727,10 +2738,24 @@ body.splash-active > *:not(.splash-overlay) {
 /* Subscribe Page */
 .subscribe-section {
     flex: 1;
-    padding: 100px 0 80px;
+    padding: 100px 20px 80px;
     display: flex;
     align-items: center;
     justify-content: center;
+    min-height: 300px;
+}
+
+.subscribe-section .container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+.subscribe-section .hero-logo-image {
+    max-width: 500px;
+    width: 100%;
+    margin-bottom: 40px;
 }
 
 .subscribe-container {
