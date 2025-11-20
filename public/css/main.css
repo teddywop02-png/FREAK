@@ -846,11 +846,12 @@ body.splash-active > *:not(.splash-overlay) {
     align-items: center;
     justify-content: center;
     width: 100%;
+    max-width: 600px;
 }
 
 .shop-header .hero-logo-image {
-    max-width: 100%;
-    width: 90vw;
+    max-width: none;
+    width: 100%;
     max-height: 500px;
     object-fit: contain;
 }
@@ -2759,10 +2760,11 @@ body.splash-active > *:not(.splash-overlay) {
     flex-direction: column;
     align-items: center;
     justify-content: center;
+    max-width: 600px;
 }
 
 .subscribe-section .hero-logo-image {
-    max-width: 700px;
+    max-width: none;
     width: 100%;
     margin-bottom: 40px;
     object-fit: contain;
