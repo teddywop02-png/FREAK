@@ -2738,7 +2738,7 @@ body.splash-active > *:not(.splash-overlay) {
 /* Subscribe Page */
 .subscribe-section {
     flex: 1;
-    padding: 100px 20px 80px;
+    padding: 80px 20px 80px;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -2753,9 +2753,10 @@ body.splash-active > *:not(.splash-overlay) {
 }
 
 .subscribe-section .hero-logo-image {
-    max-width: 500px;
+    max-width: 700px;
     width: 100%;
     margin-bottom: 40px;
+    object-fit: contain;
 }
 
 .subscribe-container {
