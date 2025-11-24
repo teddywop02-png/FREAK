@@ -2759,7 +2759,7 @@ body.splash-active > *:not(.splash-overlay) {
     min-height: 100vh;
     background-image: url('/images/background.jpg');
     background-size: 90%;
-    background-position: center;
+    background-position: center top;
     background-repeat: no-repeat;
     background-attachment: fixed;
 }
