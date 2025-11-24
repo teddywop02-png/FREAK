@@ -1325,6 +1325,11 @@ body.splash-active > *:not(.splash-overlay) {
     .products-section {
         padding: 80px 0 120px 0;
     }
+
+    /* Subscribe Page - Remove background on tablets */
+    .subscribe-section {
+        background: none;
+    }
 }
 
 @media (max-width: 768px) {
