@@ -2756,11 +2756,12 @@ body.splash-active > *:not(.splash-overlay) {
     display: flex;
     align-items: center;
     justify-content: center;
-    min-height: 300px;
+    min-height: 100vh;
     background-image: url('/images/background.jpg');
     background-size: cover;
     background-position: center;
     background-repeat: no-repeat;
+    background-attachment: fixed;
 }
 
 .subscribe-section .container {
