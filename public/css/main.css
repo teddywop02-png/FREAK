@@ -670,7 +670,8 @@ body.splash-active > *:not(.splash-overlay) {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
     gap: 40px;
-    padding: 10px 0;
+    padding: 0;
+    margin-top: -20px;
 }
 
 .products-section {
@@ -854,6 +855,7 @@ body.splash-active > *:not(.splash-overlay) {
     width: 100%;
     max-height: 500px;
     object-fit: contain;
+    margin-bottom: -30px;
 }
 
 .shop-title {
