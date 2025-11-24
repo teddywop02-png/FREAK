@@ -2757,6 +2757,10 @@ body.splash-active > *:not(.splash-overlay) {
     align-items: center;
     justify-content: center;
     min-height: 300px;
+    background-image: url('/images/background.jpg');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
 }
 
 .subscribe-section .container {
@@ -2919,6 +2923,7 @@ body.splash-active > *:not(.splash-overlay) {
 @media (max-width: 768px) {
     .subscribe-section {
         padding: 60px 0 100px;
+        background: none;
     }
 
     .subscribe-title {
@@ -2944,6 +2949,7 @@ body.splash-active > *:not(.splash-overlay) {
 @media (max-width: 480px) {
     .subscribe-section {
         padding: 40px 0 100px;
+        background: none;
     }
 
     .subscribe-container {
