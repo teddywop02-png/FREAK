@@ -137,7 +137,7 @@ class ShopPage {
 
         // Generate unique stock photo based on product number and type
         let stockPhotos = [];
-        let productTitle = `FREAK TSHIRT#${productNumber}`;
+        let productTitle = `FREACK TSHIRT#${productNumber}`;
         
         if (productNumber === 1) {
             productTitle = 'DEAD INSIDE black edition';

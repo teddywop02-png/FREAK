@@ -58,7 +58,7 @@ class ProductPage {
         const imageUrl = stockPhotos[0];
         
         // Custom product names for first 3 products
-        let productTitle = `FREAK TSHIRT#${this.productNumber}`;
+        let productTitle = `FREACK TSHIRT#${this.productNumber}`;
         if (this.productNumber === '1') {
             productTitle = 'DEAD INSIDE black edition';
         } else if (this.productNumber === '2') {
