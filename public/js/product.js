@@ -31,21 +31,18 @@ class ProductPage {
                 '/images/tricouri/deadinsideblack1.png',
                 '/images/tricouri/deadinsideblack2.png',
                 '/images/tricouri/deadinsideblack3.png',
-                '/images/tricouri/marimi.jpeg',
             ];
         } else if (productNumber === '2') {
             return [
                 '/images/tricouri/deadinsidewhite1.png',
                 '/images/tricouri/deadinsidewhite2.png',
                 '/images/tricouri/deadinsidewhite3.png',
-                '/images/tricouri/marimi.jpeg',
             ];
         } else if (productNumber === '3') {
             return [
                 '/images/tricouri/strangehearts1.png',
                 '/images/tricouri/strangehearts2.png',
                 '/images/tricouri/strangehearts3.png',
-                '/images/tricouri/marimi.jpeg',
             ];
         } else {
             return [
